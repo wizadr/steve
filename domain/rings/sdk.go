@@ -2,16 +2,35 @@ package rings
 
 import "github.com/steve-care-software/digital-diamonds/domain/hash"
 
-// NewBuilder creates a new builder instance
-func NewBuilder(min uint, max uint) Builder {
+// NewBuilder creates a new builder
+func NewBuilder() Builder {
 	hashAdapter := hash.NewAdapter()
-	return createBuilder(hashAdapter, min, max)
+	return createBuilder(hashAdapter)
+}
+
+// NewRingBuilder creates a new ring builder instance
+func NewRingBuilder(min uint, max uint) RingBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createRingBuilder(hashAdapter, min, max)
 }
 
 // Builder represents a ring builder
 type Builder interface {
 	Create() Builder
-	WithList(list []hash.Hash) Builder
+	WithList(list []Ring) Builder
+	Now() (Rings, error)
+}
+
+// Rings represents rings
+type Rings interface {
+	Hash() hash.Hash
+	List() []Ring
+}
+
+// RingBuilder represents a ring builder
+type RingBuilder interface {
+	Create() RingBuilder
+	WithList(list []hash.Hash) RingBuilder
 	Now() (Ring, error)
 }
 

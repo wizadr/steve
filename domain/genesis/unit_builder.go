@@ -4,13 +4,13 @@ import (
 	"errors"
 
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/owners"
+	"github.com/steve-care-software/digital-diamonds/domain/rings"
 )
 
 type unitBuilder struct {
 	hashAdapter hash.Adapter
 	content     UnitContent
-	owner       owners.Owner
+	owner       rings.Ring
 }
 
 func createUnitBuilder(
@@ -39,7 +39,7 @@ func (app *unitBuilder) WithContent(content UnitContent) UnitBuilder {
 }
 
 // WithOwner adds an owner to the builder
-func (app *unitBuilder) WithOwner(owner owners.Owner) UnitBuilder {
+func (app *unitBuilder) WithOwner(owner rings.Ring) UnitBuilder {
 	app.owner = owner
 	return app
 }

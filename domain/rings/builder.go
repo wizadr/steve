@@ -2,27 +2,20 @@ package rings
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
 )
 
 type builder struct {
 	hashAdapter hash.Adapter
-	min         uint
-	max         uint
-	list        []hash.Hash
+	list        []Ring
 }
 
 func createBuilder(
 	hashAdapter hash.Adapter,
-	min uint,
-	max uint,
 ) Builder {
 	out := builder{
 		hashAdapter: hashAdapter,
-		min:         min,
-		max:         max,
 		list:        nil,
 	}
 
@@ -31,39 +24,28 @@ func createBuilder(
 
 // Create initializes the builder
 func (app *builder) Create() Builder {
-	return createBuilder(
-		app.hashAdapter,
-		app.min,
-		app.max,
-	)
+	return createBuilder(app.hashAdapter)
 }
 
 // WithList adds a list to the builder
-func (app *builder) WithList(list []hash.Hash) Builder {
+func (app *builder) WithList(list []Ring) Builder {
 	app.list = list
 	return app
 }
 
-// Now builds a new Ring instance
-func (app *builder) Now() (Ring, error) {
+// Now builds a new Rings instance
+func (app *builder) Now() (Rings, error) {
+	if app.list != nil && len(app.list) <= 0 {
+		app.list = nil
+	}
+
 	if app.list == nil {
-		return nil, errors.New("the hashes cannot be nil")
-	}
-
-	amount := uint(len(app.list))
-	if app.min > amount {
-		str := fmt.Sprintf("there must be at least %d hashes in the ring, %d returned", app.min, amount)
-		return nil, errors.New(str)
-	}
-
-	if app.max < amount {
-		str := fmt.Sprintf("there must be a maximum of %d hashes in the ring, %d returned", app.max, amount)
-		return nil, errors.New(str)
+		return nil, errors.New("there must be at least 1 Ring in order to build an Rings instance")
 	}
 
 	data := [][]byte{}
-	for _, oneHash := range app.list {
-		data = append(data, oneHash.Bytes())
+	for _, oneRing := range app.list {
+		data = append(data, oneRing.Hash().Bytes())
 	}
 
 	hash, err := app.hashAdapter.FromMultiBytes(data)
@@ -71,5 +53,5 @@ func (app *builder) Now() (Ring, error) {
 		return nil, err
 	}
 
-	return createRing(*hash, app.list), nil
+	return createRings(*hash, app.list), nil
 }

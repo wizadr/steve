@@ -3,15 +3,15 @@ package chains
 import (
 	"time"
 
-	"github.com/steve-care-software/digital-diamonds/domain/owners"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions"
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/digital-diamonds/domain/rings"
+	"github.com/steve-care-software/digital-diamonds/domain/transactions"
 )
 
 type block struct {
 	hash         hash.Hash
 	height       uint
-	fees         owners.Owners
+	fees         rings.Ring
 	transactions transactions.Transactions
 	createdOn    time.Time
 	previous     *hash.Hash
@@ -20,7 +20,7 @@ type block struct {
 func createBlock(
 	hash hash.Hash,
 	height uint,
-	fees owners.Owners,
+	fees rings.Ring,
 	transactions transactions.Transactions,
 	createdOn time.Time,
 ) Block {
@@ -30,7 +30,7 @@ func createBlock(
 func createBlockWithPrevious(
 	hash hash.Hash,
 	height uint,
-	fees owners.Owners,
+	fees rings.Ring,
 	transactions transactions.Transactions,
 	createdOn time.Time,
 	previous *hash.Hash,
@@ -41,7 +41,7 @@ func createBlockWithPrevious(
 func createBlockInternally(
 	hash hash.Hash,
 	height uint,
-	fees owners.Owners,
+	fees rings.Ring,
 	transactions transactions.Transactions,
 	createdOn time.Time,
 	previous *hash.Hash,
@@ -64,7 +64,7 @@ func (obj *block) Hash() hash.Hash {
 }
 
 // Fees returns the fees owners
-func (obj *block) Fees() owners.Owners {
+func (obj *block) Fees() rings.Ring {
 	return obj.fees
 }
 

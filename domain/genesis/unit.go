@@ -2,19 +2,19 @@ package genesis
 
 import (
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/owners"
+	"github.com/steve-care-software/digital-diamonds/domain/rings"
 )
 
 type unit struct {
 	hash    hash.Hash
 	content UnitContent
-	owner   owners.Owner
+	owner   rings.Ring
 }
 
 func createUnit(
 	hash hash.Hash,
 	content UnitContent,
-	owner owners.Owner,
+	owner rings.Ring,
 ) Unit {
 	out := unit{
 		hash:    hash,
@@ -36,6 +36,6 @@ func (obj *unit) Content() UnitContent {
 }
 
 // Owner returns the owner
-func (obj *unit) Owner() owners.Owner {
+func (obj *unit) Owner() rings.Ring {
 	return obj.owner
 }

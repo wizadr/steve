@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/owners"
+	"github.com/steve-care-software/digital-diamonds/domain/rings"
 )
 
 // NewBuilder creates a new builder
@@ -57,7 +57,7 @@ type Units interface {
 type UnitBuilder interface {
 	Create() UnitBuilder
 	WithContent(content UnitContent) UnitBuilder
-	WithOwner(owner owners.Owner) UnitBuilder
+	WithOwner(owner rings.Ring) UnitBuilder
 	Now() (Unit, error)
 }
 
@@ -65,7 +65,7 @@ type UnitBuilder interface {
 type Unit interface {
 	Hash() hash.Hash
 	Content() UnitContent
-	Owner() owners.Owner
+	Owner() rings.Ring
 }
 
 // UnitContentBuilder represents the unit content builder

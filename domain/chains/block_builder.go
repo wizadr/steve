@@ -5,15 +5,15 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/steve-care-software/digital-diamonds/domain/owners"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions"
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/digital-diamonds/domain/rings"
+	"github.com/steve-care-software/digital-diamonds/domain/transactions"
 )
 
 type blockBuilder struct {
 	hashAdapter  hash.Adapter
 	height       uint
-	fees         owners.Owners
+	fees         rings.Ring
 	transactions transactions.Transactions
 	createdOn    *time.Time
 	previous     *hash.Hash
@@ -46,7 +46,7 @@ func (app *blockBuilder) WithHeight(height uint) BlockBuilder {
 }
 
 // WithFees returns the fees owners
-func (app *blockBuilder) WithFees(fees owners.Owners) BlockBuilder {
+func (app *blockBuilder) WithFees(fees rings.Ring) BlockBuilder {
 	app.fees = fees
 	return app
 }

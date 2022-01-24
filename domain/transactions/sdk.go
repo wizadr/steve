@@ -6,7 +6,7 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/cryptography/keys/signature"
 	"github.com/steve-care-software/digital-diamonds/domain/genesis"
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/owners"
+	"github.com/steve-care-software/digital-diamonds/domain/rings"
 )
 
 // Builder represents a transactions builder
@@ -40,7 +40,7 @@ type Transaction interface {
 // ContentBuilder represents a content builder
 type ContentBuilder interface {
 	Create() ContentBuilder
-	WithOwner(owner owners.Owner) ContentBuilder
+	WithOwner(owner rings.Ring) ContentBuilder
 	WithAmount(amount hash.Hash) ContentBuilder
 	WithFees(fees uint) ContentBuilder
 	WithOrigin(origin Origin) ContentBuilder
@@ -52,7 +52,7 @@ type ContentBuilder interface {
 // Content represents the content
 type Content interface {
 	Hash() hash.Hash
-	Owner() owners.Owner
+	Owner() rings.Ring
 	Amount() hash.Hash
 	Fees() uint
 	Origin() Origin

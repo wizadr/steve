@@ -4,9 +4,9 @@ import (
 	"time"
 
 	uuid "github.com/satori/go.uuid"
-	"github.com/steve-care-software/digital-diamonds/domain/owners"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions"
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/digital-diamonds/domain/rings"
+	"github.com/steve-care-software/digital-diamonds/domain/transactions"
 )
 
 // NewBuilder creates a new builder instance
@@ -45,7 +45,7 @@ type Chain interface {
 type BlockBuilder interface {
 	Create() BlockBuilder
 	WithHeight(height uint) BlockBuilder
-	WithFees(fees owners.Owners) BlockBuilder
+	WithFees(fees rings.Ring) BlockBuilder
 	WithTransactions(transactions transactions.Transactions) BlockBuilder
 	WithPrevious(previous hash.Hash) BlockBuilder
 	CreatedOn(createdOn time.Time) BlockBuilder
@@ -56,7 +56,7 @@ type BlockBuilder interface {
 type Block interface {
 	Hash() hash.Hash
 	Height() uint
-	Fees() owners.Owners
+	Fees() rings.Ring
 	Transactions() transactions.Transactions
 	CreatedOn() time.Time
 	HasPrevious() bool
