@@ -9,17 +9,20 @@ import (
 type genesis struct {
 	hash      hash.Hash
 	units     Units
+	fees      uint
 	createdOn time.Time
 }
 
 func createGenesis(
 	hash hash.Hash,
 	units Units,
+	fees uint,
 	createdOn time.Time,
 ) Genesis {
 	out := genesis{
 		hash:      hash,
 		units:     units,
+		fees:      fees,
 		createdOn: createdOn,
 	}
 
@@ -34,6 +37,11 @@ func (obj *genesis) Hash() hash.Hash {
 // Units returns the units
 func (obj *genesis) Units() Units {
 	return obj.units
+}
+
+// Fees returns the fees
+func (obj *genesis) Fees() uint {
+	return obj.fees
 }
 
 // CreatedOn returns the creation time

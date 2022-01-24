@@ -12,6 +12,7 @@ import (
 type builder struct {
 	hashAdapter hash.Adapter
 	units       Units
+	fees        *uint
 	createdOn   *time.Time
 }
 
@@ -21,6 +22,7 @@ func createBuilder(
 	out := builder{
 		hashAdapter: hashAdapter,
 		units:       nil,
+		fees:        nil,
 		createdOn:   nil,
 	}
 
@@ -38,6 +40,12 @@ func (app *builder) WithUnits(units Units) Builder {
 	return app
 }
 
+// WithFees add fees to the builder
+func (app *builder) WithFees(fees uint) Builder {
+	app.fees = &fees
+	return app
+}
+
 // CreatedOn adds a creation time to the builder
 func (app *builder) CreatedOn(createdOn time.Time) Builder {
 	app.createdOn = &createdOn
@@ -48,6 +56,10 @@ func (app *builder) CreatedOn(createdOn time.Time) Builder {
 func (app *builder) Now() (Genesis, error) {
 	if app.units == nil {
 		return nil, errors.New("the units is mandatory in order to build a Genesis instance")
+	}
+
+	if app.fees == nil {
+		return nil, errors.New("the fees is mandatory in order to build a Genesis instance")
 	}
 
 	if app.createdOn == nil {
@@ -64,6 +76,7 @@ func (app *builder) Now() (Genesis, error) {
 	}
 
 	hash, err := app.hashAdapter.FromMultiBytes([][]byte{
+		[]byte(strconv.Itoa(int(*app.fees))),
 		app.units.Hash().Bytes(),
 		[]byte(strconv.Itoa(int(app.createdOn.UTC().UnixNano()))),
 	})
@@ -72,5 +85,5 @@ func (app *builder) Now() (Genesis, error) {
 		return nil, err
 	}
 
-	return createGenesis(*hash, app.units, *app.createdOn), nil
+	return createGenesis(*hash, app.units, *app.fees, *app.createdOn), nil
 }

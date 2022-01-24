@@ -9,7 +9,7 @@ import (
 )
 
 // Init returns the init public func
-func Init(name string, password string, unitsAmount uint, chunksAmount uint) error {
+func Init(name string, password string, feesAmount uint, unitsAmount uint, chunksAmount uint) error {
 	return nil
 }
 

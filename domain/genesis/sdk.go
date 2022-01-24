@@ -29,6 +29,7 @@ func NewUnitContentBuilder() UnitContentBuilder {
 type Builder interface {
 	Create() Builder
 	WithUnits(units Units) Builder
+	WithFees(fees uint) Builder
 	CreatedOn(createdOn time.Time) Builder
 	Now() (Genesis, error)
 }
@@ -37,6 +38,7 @@ type Builder interface {
 type Genesis interface {
 	Hash() hash.Hash
 	Units() Units
+	Fees() uint
 	CreatedOn() time.Time
 }
 

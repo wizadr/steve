@@ -9,6 +9,29 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/rings"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
+// NewTransactionBuilder creates a new transaction builder
+func NewTransactionBuilder() TransactionBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createTranactionBuilder(hashAdapter)
+}
+
+// NewContentBuilder creates a new content builder
+func NewContentBuilder() ContentBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createContentBuilder(hashAdapter)
+}
+
+// NewOriginBuilder creates a new origin builder
+func NewOriginBuilder() OriginBuilder {
+	return createOriginBuilder()
+}
+
 // Builder represents a transactions builder
 type Builder interface {
 	Create() Builder
@@ -42,10 +65,9 @@ type ContentBuilder interface {
 	Create() ContentBuilder
 	WithOwner(owner rings.Ring) ContentBuilder
 	WithAmount(amount hash.Hash) ContentBuilder
-	WithFees(fees uint) ContentBuilder
 	WithOrigin(origin Origin) ContentBuilder
 	WithExternal(external hash.Hash) ContentBuilder
-	WithSides(sides Transactions) ContentBuilder
+	CreatedOn(createdOn time.Time) ContentBuilder
 	Now() (Content, error)
 }
 
@@ -54,13 +76,9 @@ type Content interface {
 	Hash() hash.Hash
 	Owner() rings.Ring
 	Amount() hash.Hash
-	Fees() uint
 	Origin() Origin
+	External() hash.Hash
 	CreatedOn() time.Time
-	HasExternal() bool
-	External() *hash.Hash
-	HasSides() bool
-	Sides() Transactions
 }
 
 // OriginBuilder represents the origin builder
