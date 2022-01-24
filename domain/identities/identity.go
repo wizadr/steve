@@ -1,53 +1,37 @@
 package identities
 
-import (
-	"github.com/steve-care-software/digital-diamonds/domain/transactions/privates"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions/secrets"
-)
+import "github.com/steve-care-software/digital-diamonds/domain/transactions/privates"
 
 type identity struct {
-	name     string
-	outgoing privates.Privates
-	incoming secrets.Secrets
+	name    string
+	trx     Transactions
+	genesis privates.Privates
 }
 
 func createIdentity(
 	name string,
+	trx Transactions,
 ) Identity {
-	return createIdentityInternally(name, nil, nil)
+	return createIdentityInternally(name, trx, nil)
 }
 
-func createIdentityWithOutgoing(
+func createIdentityWithGenesis(
 	name string,
-	outgoing privates.Privates,
+	trx Transactions,
+	genesis privates.Privates,
 ) Identity {
-	return createIdentityInternally(name, outgoing, nil)
-}
-
-func createIdentityWithIncoming(
-	name string,
-	incoming secrets.Secrets,
-) Identity {
-	return createIdentityInternally(name, nil, incoming)
-}
-
-func createIdentityWithOutgoingAndIncoming(
-	name string,
-	outgoing privates.Privates,
-	incoming secrets.Secrets,
-) Identity {
-	return createIdentityInternally(name, outgoing, incoming)
+	return createIdentityInternally(name, trx, genesis)
 }
 
 func createIdentityInternally(
 	name string,
-	outgoing privates.Privates,
-	incoming secrets.Secrets,
+	trx Transactions,
+	genesis privates.Privates,
 ) Identity {
 	out := identity{
-		name:     name,
-		outgoing: outgoing,
-		incoming: incoming,
+		name:    name,
+		trx:     trx,
+		genesis: genesis,
 	}
 
 	return &out
@@ -58,22 +42,17 @@ func (obj *identity) Name() string {
 	return obj.name
 }
 
-// HasOutgoing returns true if there is outgoing transactions, false otherwise
-func (obj *identity) HasOutgoing() bool {
-	return obj.outgoing != nil
+// Transactions returns the transactions
+func (obj *identity) Transactions() Transactions {
+	return obj.trx
 }
 
-// Outgoing returns the outgoing transactions
-func (obj *identity) Outgoing() privates.Privates {
-	return obj.outgoing
+// HasGenesis returns true if there is genesis transactions, false otherwise
+func (obj *identity) HasGenesis() bool {
+	return obj.genesis != nil
 }
 
-// HasIncoming returns true if there is incoming transactions, false otherwise
-func (obj *identity) HasIncoming() bool {
-	return obj.incoming != nil
-}
-
-// Incoming returns the incoming transactions
-func (obj *identity) Incoming() secrets.Secrets {
-	return obj.incoming
+// Genesis returns the genesis transactions, if any
+func (obj *identity) Genesis() privates.Privates {
+	return obj.genesis
 }

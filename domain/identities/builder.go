@@ -4,20 +4,19 @@ import (
 	"errors"
 
 	"github.com/steve-care-software/digital-diamonds/domain/transactions/privates"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions/secrets"
 )
 
 type builder struct {
-	name     string
-	outgoing privates.Privates
-	incoming secrets.Secrets
+	name    string
+	trx     Transactions
+	genesis privates.Privates
 }
 
 func createBuilder() Builder {
 	out := builder{
-		name:     "",
-		outgoing: nil,
-		incoming: nil,
+		name:    "",
+		trx:     nil,
+		genesis: nil,
 	}
 
 	return &out
@@ -34,35 +33,31 @@ func (app *builder) WithName(name string) Builder {
 	return app
 }
 
-// WithOutgoing adds an outgoing to the builder
-func (app *builder) WithOutgoing(outgoing privates.Privates) Builder {
-	app.outgoing = outgoing
+// WithTransactions add transactions to the builder
+func (app *builder) WithTransactions(trx Transactions) Builder {
+	app.trx = trx
 	return app
 }
 
-// WithIncoming adds an incoming to the builder
-func (app *builder) WithIncoming(incoming secrets.Secrets) Builder {
-	app.incoming = incoming
+// WithGenesis add genesis transactions to the builder
+func (app *builder) WithGenesis(genesis privates.Privates) Builder {
+	app.genesis = genesis
 	return app
 }
 
-// Now builds a new Identity instance
+// Nwo builds a new Idenity instance
 func (app *builder) Now() (Identity, error) {
 	if app.name == "" {
 		return nil, errors.New("the name is mandatory in order to build an Identity instance")
 	}
 
-	if app.outgoing != nil && app.incoming != nil {
-		return createIdentityWithOutgoingAndIncoming(app.name, app.outgoing, app.incoming), nil
+	if app.trx == nil {
+		return nil, errors.New("the transactions is mandatory in order to build an Identity instance")
 	}
 
-	if app.outgoing != nil {
-		return createIdentityWithOutgoing(app.name, app.outgoing), nil
+	if app.genesis != nil {
+		return createIdentityWithGenesis(app.name, app.trx, app.genesis), nil
 	}
 
-	if app.incoming != nil {
-		return createIdentityWithIncoming(app.name, app.incoming), nil
-	}
-
-	return createIdentity(app.name), nil
+	return createIdentity(app.name, app.trx), nil
 }
