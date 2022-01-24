@@ -17,6 +17,8 @@ type Builder interface {
 // Identity represents the identity
 type Identity interface {
 	Name() string
+	HasOutgoing() bool
 	Outgoing() privates.Privates
+	HasIncoming() bool
 	Incoming() secrets.Secrets
 }
