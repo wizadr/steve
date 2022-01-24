@@ -6,6 +6,12 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/transactions/secrets"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
 // Builder represents a receipt builder
 type Builder interface {
 	Create() Builder
