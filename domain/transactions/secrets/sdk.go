@@ -5,6 +5,18 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/transactions"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
+// NewSecretBuilder creates a new secret builder
+func NewSecretBuilder() SecretBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createSecretBuilder(hashAdapter)
+}
+
 // Builder represents a secrets builder
 type Builder interface {
 	Create() Builder

@@ -66,7 +66,7 @@ type Content interface {
 // OriginBuilder represents the origin builder
 type OriginBuilder interface {
 	Create() OriginBuilder
-	WithGenesis(genesis genesis.Genesis) OriginBuilder
+	WithGenesis(genesis genesis.Unit) OriginBuilder
 	WithTransaction(trx Transaction) OriginBuilder
 	Now() (Origin, error)
 }
@@ -75,7 +75,7 @@ type OriginBuilder interface {
 type Origin interface {
 	Hash() hash.Hash
 	IsGenesis() bool
-	Genesis() genesis.Genesis
+	Genesis() genesis.Unit
 	IsTransaction() bool
 	Transaction() Transaction
 }
