@@ -3,7 +3,7 @@ package transactions
 import (
 	"errors"
 
-	"github.com/steve-care-software/digital-diamonds/domain/genesis"
+	"github.com/steve-care-software/steve/domain/genesis"
 )
 
 type originBuilder struct {

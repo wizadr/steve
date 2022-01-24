@@ -1,8 +1,8 @@
 package application
 
 import (
-	"github.com/steve-care-software/digital-diamonds/applications/blockchains"
-	"github.com/steve-care-software/digital-diamonds/applications/identities"
+	"github.com/steve-care-software/steve/applications/blockchains"
+	"github.com/steve-care-software/steve/applications/identities"
 )
 
 // Application represents a blockchain application

@@ -1,6 +1,6 @@
 package identities
 
-import "github.com/steve-care-software/digital-diamonds/domain/transactions/privates"
+import "github.com/steve-care-software/steve/domain/transactions/privates"
 
 type identity struct {
 	name    string

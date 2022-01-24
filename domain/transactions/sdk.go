@@ -3,10 +3,10 @@ package transactions
 import (
 	"time"
 
-	"github.com/steve-care-software/digital-diamonds/domain/cryptography/keys/signature"
-	"github.com/steve-care-software/digital-diamonds/domain/genesis"
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/rings"
+	"github.com/steve-care-software/steve/domain/cryptography/keys/signature"
+	"github.com/steve-care-software/steve/domain/genesis"
+	"github.com/steve-care-software/steve/domain/hash"
+	"github.com/steve-care-software/steve/domain/rings"
 )
 
 // NewBuilder creates a new builder instance

@@ -3,7 +3,7 @@ package identities
 import (
 	"errors"
 
-	"github.com/steve-care-software/digital-diamonds/domain/transactions/privates"
+	"github.com/steve-care-software/steve/domain/transactions/privates"
 )
 
 type builder struct {

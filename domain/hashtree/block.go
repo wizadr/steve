@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"math"
 
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/steve/domain/hash"
 )
 
 type block struct {

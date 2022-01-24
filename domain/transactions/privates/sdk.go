@@ -1,9 +1,9 @@
 package privates
 
 import (
-	"github.com/steve-care-software/digital-diamonds/domain/cryptography/keys/signature"
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/receipts"
+	"github.com/steve-care-software/steve/domain/cryptography/keys/signature"
+	"github.com/steve-care-software/steve/domain/hash"
+	"github.com/steve-care-software/steve/domain/receipts"
 )
 
 // NewBuilder creates a new builder instance

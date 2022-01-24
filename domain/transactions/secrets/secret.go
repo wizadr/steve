@@ -1,8 +1,8 @@
 package secrets
 
 import (
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions"
+	"github.com/steve-care-software/steve/domain/hash"
+	"github.com/steve-care-software/steve/domain/transactions"
 )
 
 type secret struct {

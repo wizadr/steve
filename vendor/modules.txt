@@ -15,5 +15,3 @@ go.dedis.ch/kyber/v3/xof/blake2xb
 golang.org/x/crypto/blake2b
 # golang.org/x/sys v0.0.0-20190124100055-b90733256f2e
 golang.org/x/sys/cpu
-# gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c
-## explicit

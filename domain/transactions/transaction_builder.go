@@ -3,8 +3,8 @@ package transactions
 import (
 	"errors"
 
-	"github.com/steve-care-software/digital-diamonds/domain/cryptography/keys/signature"
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/steve/domain/cryptography/keys/signature"
+	"github.com/steve-care-software/steve/domain/hash"
 )
 
 type transactionBuilder struct {

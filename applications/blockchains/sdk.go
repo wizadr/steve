@@ -2,10 +2,10 @@ package blockchains
 
 import (
 	uuid "github.com/satori/go.uuid"
-	"github.com/steve-care-software/digital-diamonds/domain/chains"
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/peers"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions"
+	"github.com/steve-care-software/steve/domain/chains"
+	"github.com/steve-care-software/steve/domain/hash"
+	"github.com/steve-care-software/steve/domain/peers"
+	"github.com/steve-care-software/steve/domain/transactions"
 )
 
 // Init returns the init public func

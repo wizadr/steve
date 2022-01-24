@@ -3,7 +3,7 @@ package encryption
 import (
 	"crypto/rsa"
 
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/steve/domain/hash"
 )
 
 // NewFactory returns a new encryption's privatekey factory

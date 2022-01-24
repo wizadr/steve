@@ -1,7 +1,7 @@
 package signature
 
 import (
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/steve/domain/hash"
 	kyber "go.dedis.ch/kyber/v3"
 	"go.dedis.ch/kyber/v3/group/edwards25519"
 )

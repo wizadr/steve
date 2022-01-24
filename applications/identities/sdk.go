@@ -1,9 +1,9 @@
 package identities
 
 import (
-	"github.com/steve-care-software/digital-diamonds/domain/receipts"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions/secrets"
-	"github.com/steve-care-software/digital-diamonds/domain/cryptography/keys/signature"
+	"github.com/steve-care-software/steve/domain/receipts"
+	"github.com/steve-care-software/steve/domain/transactions/secrets"
+	"github.com/steve-care-software/steve/domain/cryptography/keys/signature"
 )
 
 // Application represents an identity application

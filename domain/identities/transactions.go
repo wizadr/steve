@@ -1,8 +1,8 @@
 package identities
 
 import (
-	"github.com/steve-care-software/digital-diamonds/domain/transactions/privates"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions/secrets"
+	"github.com/steve-care-software/steve/domain/transactions/privates"
+	"github.com/steve-care-software/steve/domain/transactions/secrets"
 )
 
 type transactions struct {

@@ -1,6 +1,6 @@
 package secrets
 
-import "github.com/steve-care-software/digital-diamonds/domain/hash"
+import "github.com/steve-care-software/steve/domain/hash"
 
 type secrets struct {
 	hash hash.Hash

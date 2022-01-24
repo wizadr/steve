@@ -1,9 +1,9 @@
 package receipts
 
 import (
-	"github.com/steve-care-software/digital-diamonds/domain/cryptography/keys/signature"
-	"github.com/steve-care-software/digital-diamonds/domain/hash"
-	"github.com/steve-care-software/digital-diamonds/domain/transactions/secrets"
+	"github.com/steve-care-software/steve/domain/cryptography/keys/signature"
+	"github.com/steve-care-software/steve/domain/hash"
+	"github.com/steve-care-software/steve/domain/transactions/secrets"
 )
 
 // NewBuilder creates a new builder instance
