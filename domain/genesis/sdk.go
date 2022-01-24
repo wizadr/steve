@@ -7,6 +7,24 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
 )
 
+// NewBuilder creates a new builder
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
+// NewUnitBuilder creates a new unit builder
+func NewUnitBuilder() UnitBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createUnitBuilder(hashAdapter)
+}
+
+// NewUnitContentBuilder creates a new unit content builder
+func NewUnitContentBuilder() UnitContentBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createUnitContentBuilder(hashAdapter)
+}
+
 // Builder represents a genesis builder
 type Builder interface {
 	Create() Builder
