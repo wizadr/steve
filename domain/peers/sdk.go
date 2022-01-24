@@ -1,5 +1,15 @@
 package peers
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	return createBuilder()
+}
+
+// NewPeerBuilder returns a peer builder
+func NewPeerBuilder(delimiter string) PeerBuilder {
+	return createPeerBuilder(delimiter)
+}
+
 // Builder represents a peers builder
 type Builder interface {
 	Create() Builder

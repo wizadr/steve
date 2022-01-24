@@ -3,17 +3,20 @@ package peers
 import "fmt"
 
 type peer struct {
-	host string
-	port uint
+	host      string
+	port      uint
+	delimiter string
 }
 
 func createPeer(
 	host string,
 	port uint,
+	delimiter string,
 ) Peer {
 	out := peer{
-		host: host,
-		port: port,
+		host:      host,
+		port:      port,
+		delimiter: delimiter,
 	}
 
 	return &out
@@ -31,5 +34,5 @@ func (obj *peer) Port() uint {
 
 // String returns the string representation of the peer
 func (obj *peer) String() string {
-	return fmt.Sprintf("%s%d", obj.host, obj.port)
+	return fmt.Sprintf("%s%s%d", obj.host, obj.delimiter, obj.port)
 }
