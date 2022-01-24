@@ -6,6 +6,18 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
+// NewPrivateBuilder creates a new private builder
+func NewPrivateBuilder() PrivateBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createPrivateBuilder(hashAdapter)
+}
+
 // Builder represents the privates builder
 type Builder interface {
 	Create() Builder
@@ -16,14 +28,14 @@ type Builder interface {
 // Privates represents private units
 type Privates interface {
 	Hash() hash.Hash
-	All() []Private
+	List() []Private
 }
 
-// PrivateKeyBuilder represents a private key builder
-type PrivateKeyBuilder interface {
-	Create() PrivateKeyBuilder
-	WithUnit(unit genesis.Unit) PrivateKeyBuilder
-	WithPrivateKey(pk signature.PrivateKey) PrivateKeyBuilder
+// PrivateBuilder represents a private builder
+type PrivateBuilder interface {
+	Create() PrivateBuilder
+	WithUnit(unit genesis.Unit) PrivateBuilder
+	WithPrivateKey(pk signature.PrivateKey) PrivateBuilder
 	Now() (Private, error)
 }
 
