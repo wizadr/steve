@@ -5,6 +5,11 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/transactions/secrets"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	return createBuilder()
+}
+
 // Builder represents the identity builder
 type Builder interface {
 	Create() Builder
