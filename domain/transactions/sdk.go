@@ -9,10 +9,25 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/owners"
 )
 
+// Builder represents a transactions builder
+type Builder interface {
+	Create() Builder
+	WithList(list []Transaction) Builder
+	Now() (Transactions, error)
+}
+
 // Transactions represents transactions
 type Transactions interface {
 	Hash() hash.Hash
 	All() []Transaction
+}
+
+// TransactionBuilder represents a transaction builder
+type TransactionBuilder interface {
+	Create() TransactionBuilder
+	WithContent(content Content) TransactionBuilder
+	WithAuthorization(auth signature.RingSignature) TransactionBuilder
+	Now() (Transaction, error)
 }
 
 // Transaction represents a transaction
@@ -20,6 +35,18 @@ type Transaction interface {
 	Hash() hash.Hash
 	Content() Content
 	Authorization() signature.RingSignature
+}
+
+// ContentBuilder represents a content builder
+type ContentBuilder interface {
+	Create() ContentBuilder
+	WithOwner(owner owners.Owner) ContentBuilder
+	WithAmount(amount hash.Hash) ContentBuilder
+	WithFees(fees uint) ContentBuilder
+	WithOrigin(origin Origin) ContentBuilder
+	WithExternal(external hash.Hash) ContentBuilder
+	WithSides(sides Transactions) ContentBuilder
+	Now() (Content, error)
 }
 
 // Content represents the content
@@ -31,9 +58,17 @@ type Content interface {
 	Origin() Origin
 	CreatedOn() time.Time
 	HasExternal() bool
-	External() hash.Hash
+	External() *hash.Hash
 	HasSides() bool
 	Sides() Transactions
+}
+
+// OriginBuilder represents the origin builder
+type OriginBuilder interface {
+	Create() OriginBuilder
+	WithGenesis(genesis genesis.Genesis) OriginBuilder
+	WithTransaction(trx Transaction) OriginBuilder
+	Now() (Origin, error)
 }
 
 // Origin represents a transaction origin
