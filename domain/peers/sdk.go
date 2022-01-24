@@ -15,23 +15,15 @@ type Peers interface {
 // PeerBuilder represents a peer builder
 type PeerBuilder interface {
 	Create() PeerBuilder
-	WithClear(clear string) PeerBuilder
-	WithOnion(onion string) PeerBuilder
+	WithHost(host string) PeerBuilder
 	WithPort(port uint) PeerBuilder
+	WithString(str string) PeerBuilder
 	Now() (Peer, error)
 }
 
 // Peer represents a peer
 type Peer interface {
-	Host() Host
+	Host() string
 	Port() uint
 	String() string
-}
-
-// Host represents a peer host
-type Host interface {
-	IsClear() bool
-	Clear() string
-	IsOnion() bool
-	Onion() string
 }
