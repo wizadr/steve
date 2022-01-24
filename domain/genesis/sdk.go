@@ -3,8 +3,8 @@ package genesis
 import (
 	"time"
 
-	"github.com/steve-care-software/digital-diamonds/domain/cryptography/keys/signature"
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/digital-diamonds/domain/owners"
 )
 
 // NewBuilder creates a new builder
@@ -57,7 +57,7 @@ type Units interface {
 type UnitBuilder interface {
 	Create() UnitBuilder
 	WithContent(content UnitContent) UnitBuilder
-	WithSignature(sig signature.Signature) UnitBuilder
+	WithOwner(owner owners.Owner) UnitBuilder
 	Now() (Unit, error)
 }
 
@@ -65,7 +65,7 @@ type UnitBuilder interface {
 type Unit interface {
 	Hash() hash.Hash
 	Content() UnitContent
-	Signature() signature.Signature
+	Owner() owners.Owner
 }
 
 // UnitContentBuilder represents the unit content builder

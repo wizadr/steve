@@ -1,25 +1,25 @@
 package genesis
 
 import (
-	"github.com/steve-care-software/digital-diamonds/domain/cryptography/keys/signature"
 	"github.com/steve-care-software/digital-diamonds/domain/hash"
+	"github.com/steve-care-software/digital-diamonds/domain/owners"
 )
 
 type unit struct {
 	hash    hash.Hash
 	content UnitContent
-	sig     signature.Signature
+	owner   owners.Owner
 }
 
 func createUnit(
 	hash hash.Hash,
 	content UnitContent,
-	sig signature.Signature,
+	owner owners.Owner,
 ) Unit {
 	out := unit{
 		hash:    hash,
 		content: content,
-		sig:     sig,
+		owner:   owner,
 	}
 
 	return &out
@@ -35,7 +35,7 @@ func (obj *unit) Content() UnitContent {
 	return obj.content
 }
 
-// Signature returns the signature
-func (obj *unit) Signature() signature.Signature {
-	return obj.sig
+// Owner returns the owner
+func (obj *unit) Owner() owners.Owner {
+	return obj.owner
 }
