@@ -3,6 +3,7 @@ package identities
 import (
 	"github.com/steve-care-software/steve/domain/transactions/privates"
 	"github.com/steve-care-software/steve/domain/transactions/secrets"
+	wallets "github.com/steve-care-software/steve/domain/wallets/privates"
 )
 
 // NewBuilder creates a new builder
@@ -46,4 +47,17 @@ type Transactions interface {
 	Incoming() secrets.Secrets
 	HasOutgoing() bool
 	Outgoing() privates.Privates
+}
+
+// AssetsBuilder represents an assets builder
+type AssetsBuilder interface {
+	Create() AssetsBuilder
+	WithWallets(wallets wallets.Privates) AssetsBuilder
+	Now() (Assets, error)
+}
+
+// Assets represents assets
+type Assets interface {
+	HasWallets() bool
+	Wallets() wallets.Privates
 }
