@@ -8,9 +8,13 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/transactions"
 )
 
+// Init returns the init public func
+func Init(name string, password string, unitsAmount uint, chunksAmount uint) error {
+	return nil
+}
+
 // Application represents a blockchain application
 type Application interface {
-	Init(name string, password string, amount uint) error
 	Chains(id uuid.UUID) chains.Chain
 	Block(blockHash hash.Hash) (chains.Block, error)
 	Queue(index uint, amount uint) (transactions.Transactions, error)
