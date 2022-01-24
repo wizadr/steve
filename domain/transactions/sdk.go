@@ -19,7 +19,7 @@ type Builder interface {
 // Transactions represents transactions
 type Transactions interface {
 	Hash() hash.Hash
-	All() []Transaction
+	List() []Transaction
 }
 
 // TransactionBuilder represents a transaction builder

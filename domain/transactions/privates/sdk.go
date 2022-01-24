@@ -6,6 +6,18 @@ import (
 	"github.com/steve-care-software/digital-diamonds/domain/receipts"
 )
 
+// NewBuilder creates a new builder instance
+func NewBuilder() Builder {
+	hashAdapter := hash.NewAdapter()
+	return createBuilder(hashAdapter)
+}
+
+// NewPrivateBuilder creates a new private builder
+func NewPrivateBuilder() PrivateBuilder {
+	hashAdapter := hash.NewAdapter()
+	return createPrivateBuilder(hashAdapter)
+}
+
 // Builder represents the privates builder
 type Builder interface {
 	Create() Builder
@@ -16,7 +28,7 @@ type Builder interface {
 // Privates represents private transactions
 type Privates interface {
 	Hash() hash.Hash
-	All() []Private
+	List() []Private
 }
 
 // PrivateBuilder represents a private builder

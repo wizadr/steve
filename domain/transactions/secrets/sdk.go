@@ -15,7 +15,7 @@ type Builder interface {
 // Secrets represents secret transfers
 type Secrets interface {
 	Hash() hash.Hash
-	All() []Secret
+	List() []Secret
 }
 
 // SecretBuilder represents the secret builder

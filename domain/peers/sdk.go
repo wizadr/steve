@@ -9,7 +9,7 @@ type Builder interface {
 
 // Peers represents peers
 type Peers interface {
-	All() []Peer
+	List() []Peer
 }
 
 // PeerBuilder represents a peer builder
