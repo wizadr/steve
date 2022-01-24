@@ -1,0 +1,910 @@
+program
+    : headerVariables? instructions
+    +++
+    :
+        -> uint firstVariable:first_input
+        <- uint secondVariable:second_input
+        <- string last:last_keyname?
+
+        string myVariable := "some value"
+        uint myUintValue
+        if (first < 56.87) {
+            value := 56
+        }
+        ###
+    ;
+
+headerVariables
+    : headerVariable+
+    +++
+    :
+        -> uint firstVariable:first_input
+        <- uint secondVariable:second_input
+        <- string last:last_keyname?
+        ###
+    ;
+
+headerVariable
+    : inputOutput variableDeclaration COLON KEYNAME_PATTERN QUESTION_MARK?
+    +++
+    :
+        -> uint firstVariable:my_input_keyname
+        ###
+        -> string secondVariable:my_optional_keyname?
+        ###
+        <- uint firstVariable:my_input_keyname
+        ###
+        <- string secondVariable:my_optional_keyname?
+        ###
+    ;
+
+inputOutput
+    : RIGHT_ARROW
+    | LEFT_ARROW
+    +++
+    :
+        ->
+        ###
+        <-
+        ###
+    ;
+
+instructions
+    : instruction+
+    +++
+    :
+        string myVariable := "some value"
+        uint myUintValue
+        if (first < 56.87) {
+            value := 56
+        }
+        ###
+    ;
+
+instruction
+    : assignment
+    | variableDeclaration
+    | ifDeclaration
+    | forDeclaration
+    | voidFuncCalls
+    | direction
+    | intIncrement
+    +++
+    :
+        string myVariable := "some value"
+        ###
+        uint myUintValue
+        ###
+        if (first < 56.87) {
+            value := 56
+        }
+        ###
+        for (myKeyname, myValue := [1, 2, 3]) {
+            break
+        }
+        ###
+        log("this is some string to log")
+        ###
+        break
+        ###
+        continue
+        ###
+        cpt++
+        ###
+    ;
+
+direction
+    : BREAK
+    | CONTINUE
+    +++
+    :
+        break
+        ###
+        continue
+        ###
+    ;
+
+voidFuncCalls
+    : logFuncCall
+    +++
+    :
+        log(firstValue < secondValue)
+        ###
+    ;
+
+logFuncCall
+    : LOG_FUNC OPEN_PARENTHESIS assignable CLOSE_PARENTHESIS
+    +++
+    :
+        log(firstValue < secondValue)
+        ###
+    ;
+
+listAppend
+    : APPEND listValue COMMA singleAssignable
+    +++
+    :
+        append [34, 212, 12, 32], myList[:45]...
+        ###
+        append myList, [32,45,67,54]...
+        ###
+        append myList, newElement
+        ###
+    ;
+
+slice
+    : listValue OPEN_SQUARE_BRACKET sliceDelimiter CLOSE_SQUARE_BRACKET
+    +++
+    :
+        [34,45,65,67][1:]
+        ###
+        [34,45,65,67][1:3]
+        ###
+        myList[1:]
+        ###
+        myList[0:3]
+        ###
+    ;
+
+sliceDelimiter
+    : indexValue COLON indexValue?
+    +++
+    :
+        1:
+        ###
+        0:3
+        ###
+        1:3
+        ###
+        minIndex:
+        ###
+        0:maxIndex
+        ###
+        minIndex:maxIndex
+        ###
+        1:maxIndex
+        ###
+        minIndex:3
+        ###
+    ;
+
+indexValue
+    : INT_PATTERN
+    | variableName
+    +++
+    :
+        87
+        ###
+        myIndex
+        ###
+    ;
+
+forDeclaration
+    : FOR forStatement OPEN_BRACKET instructions? CLOSE_BRACKET
+    +++
+    :
+        for myKeyname, myValue := [1, 2, 3] {
+
+        }
+        ###
+        for myKeyname, myValue := myList {
+
+        }
+        ###
+        for (myKeyname, myValue := [1, 2, 3]) {
+            str := "this is some string"
+            break
+        }
+        ###
+        for (myKeyname, myValue := myList) {
+            if (myKeyname == 0) {
+                myValue := 55
+                break
+            }
+
+            continue
+        }
+        ###
+    ;
+
+forStatement
+    : assigneeNames -> commaAssigneeName{1} <- COLON EQUAL totalListValue
+    | OPEN_PARENTHESIS forStatement CLOSE_PARENTHESIS
+    +++
+    :
+        myKeyname, myValue := [1, 2, 3]
+        ###
+        _, myValue := [1, 2, 3]
+        ###
+        myKeyname, _ := [1, 2, 3]
+        ###
+        myKeyname, myValue := [1, 2, 3][1:]
+        ###
+        myKeyname, myValue := myList
+        ###
+        (myKeyname, myValue := myList)
+        ###
+        ((((myKeyname, myValue := myList))))
+        ###
+    ;
+
+ifDeclaration
+    : ifOperation OPEN_BRACKET instructions? CLOSE_BRACKET
+    +++
+    :
+        if ((first < (second +third)) == false) {
+
+        }
+        ###
+        if ((first < (second +third)) == false) {
+            value := 56
+        }
+        ###
+        if (first < 56.87) {
+            value := 56
+            break
+        }
+        ###
+    ;
+
+ifOperation
+    : IF operation
+    +++
+    :
+        if true
+        ###
+        if first < second
+        ###
+        if ((first < (second +third)) == false)
+        ###
+        if isNull(firstVariable)
+        ###
+    ;
+
+operation
+    : operationWithSuffix
+    | operationFuncCalls
+    | OPEN_PARENTHESIS operation CLOSE_PARENTHESIS
+    +++
+    :
+        first
+        ###
+        (first - second + (first + second))
+        ###
+        ((((first) - second) + (second+ third)) - (second + (first + second))) + last
+        ###
+        (first < 45.67)
+        ###
+        isNull(firstVariable)
+        ###
+        (isNull(firstVariable))
+        ###
+    ;
+
+operationWithSuffix
+    : operationElement operationSuffix?
+    +++
+    :
+        first
+        ###
+        first - second
+        ###
+        first - second + (first + second)
+        ###
+        (first - second + (first + second))
+        ###
+        ((((first) - second) + (second+ third)) - (second + (first + second))) + last
+        ###
+        (first < 45.67)
+        ###
+    ;
+
+operationSuffix
+    : operator operationElement
+    +++
+    :
+        + second
+        ###
+        + (first - second)
+        ###
+        > 45.67
+        ###
+    ;
+
+operationElement
+    : boolValue
+    | variableName
+    | computableValue
+    | operation
+    +++
+    :
+        true
+        ###
+        4556.54
+        ###
+        someVariable
+        ###
+        first - second
+        ###
+        45.67
+        ###
+        isNull(firstVariable)
+        ###
+    ;
+
+operationFuncCalls
+    : isNullFuncCall
+    +++
+    :
+        isNull(firstVariable)
+        ###
+    ;
+
+isNullFuncCall
+    : IS_NULL_FUNC OPEN_PARENTHESIS operation CLOSE_PARENTHESIS
+    +++
+    :
+        isNull(firstVariable)
+        ###
+    ;
+
+operator
+    : operatorArithmetic
+    | operatorRelational
+    | operatorLogical
+    +++
+    :
+        +
+        ###
+        <=
+        ###
+        ||
+        ###
+    ;
+
+operatorArithmetic
+    : PLUS
+    | MINUS
+    | STAR
+    | DIV
+    +++
+    :
+        +
+        ###
+        -
+        ###
+        *
+        ###
+        /
+        ###
+    ;
+
+operatorRelational
+    : LESS EQUAL?
+    | MORE EQUAL?
+    | EXCLAMATION EQUAL
+    | EQUAL{2}
+    +++
+    :
+        <
+        ###
+        <=
+        ###
+        >
+        ###
+        >=
+        ###
+        !=
+        ###
+        ==
+        ###
+    ;
+
+operatorLogical
+    : AND{2}
+    | PIPE{2}
+    +++
+    :
+        &&
+        ###
+        ||
+        ###
+    ;
+
+assignment
+    : assignee assignables
+    +++
+    :
+        string myVariable := "some value"
+        ###
+        myVariable := "some value"
+        ###
+        string myVariable, int myInt := "some value", 45
+        ###
+        myVariable, _, otherValue := "some value", 456, 335.98
+        ###
+        myVariable = 456.78
+        ###
+        myVariable, _, otherValue = "some value", 456, 335.98
+        ###
+    ;
+
+assignee
+    : assigneeNameFirsts COLON EQUAL
+    | assigneeNames EQUAL
+    +++
+    :
+        string myVariable :=
+        ###
+        string myVariable, _, int myInt :=
+        ###
+        myVariable :=
+        ###
+        myVariable =
+        ###
+        _, myVariable =
+        ###
+        _ =
+        ###
+    ;
+
+assigneeNameFirsts
+    : assigneeNameFirst commaAssigneeFirst*
+    +++
+    :
+        string myVariable
+        ###
+        string myVariable, _, myLast,  int myInt
+        ###
+    ;
+
+commaAssigneeFirst
+    : COMMA assigneeNameFirst
+    +++
+    :
+        , string myVariable
+        ###
+        , myVariable
+        ###
+        , _
+        ###
+    ;
+
+assigneeNameFirst
+    : variableDeclaration
+    | assigneeName
+    +++
+    :
+        string myVariable
+        ###
+        myVariable
+        ###
+        _
+        ###
+    ;
+
+assigneeNames
+    : assigneeName commaAssigneeName*
+    +++
+    :
+        first
+        ###
+        first, _
+        ###
+        _, second, _, fourth, _
+        ###
+        first, _, last
+        ###
+    ;
+
+commaAssigneeName
+    : COMMA assigneeName
+    +++
+    :
+        , myName
+        ###
+        , _
+        ###
+    ;
+
+assigneeName
+    : variableName
+    | UNDERSCORE
+    +++
+    :
+        myVariable
+        ###
+        _
+        ###
+    ;
+
+assignables
+    : assignable commaAssignable*
+    +++
+    :
+        34, -45.98, "something", (((first - second) + third + (fourth / fifth)) * (seventh - height)) - ninth
+        ###
+        34
+        ###
+    ;
+
+commaAssignable
+    : COMMA assignable
+    +++
+    :
+        ,-456.543
+        ###
+        ,(((first - second) + third + (fourth / fifth)) * (seventh - height)) - ninth
+        ###
+    ;
+
+assignable
+    : totalListAssignable
+    | singleAssignable
+    +++
+    :
+        -456.543
+        ###
+        (((first - second) + third + (fourth / fifth)) * (seventh - height)) - ninth
+        ###
+        [34, -45.98, "something", (((first - second) + third + (fourth / fifth)) * (seventh - height)) - ninth]
+        ###
+        []
+        ###
+        [
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ]
+        ###
+        [34,56,76,87][1:3]
+        ###
+        myList[min:45]
+        ###
+        append myList, 45
+        ###
+        append myList, 45...
+        ###
+        ([
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ])...
+        ###
+        (append myList, 45)...
+        ###
+    ;
+
+singleAssignable
+    : declarableValue
+    | operation
+    | listAssignableToAssignables
+    | listFetchElement
+    +++
+    :
+        -456.543
+        ###
+        (((first - second) + third + (fourth / fifth)) * (seventh - height)) - ninth
+        ###
+        append myList, 45...
+        ###
+        ([
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ])...
+        ###
+        (append myList, 45)...
+        ###
+        [
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ][1]
+        ###
+        myList[myIndex]
+        ###
+        (append myList, 45)[myIndex]
+        ###
+    ;
+
+listFetchElement
+    : totalListValue listElementFetcher
+    +++
+    :
+        myList[4]
+        ###
+        [
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ][1]
+        ###
+        [34,56,76,87][1:3][0]
+        ###
+        myList[min:45][myIndex]
+        ###
+        append myList, 45[23]
+        ###
+    ;
+
+listElementFetcher
+    : OPEN_SQUARE_BRACKET indexValue CLOSE_SQUARE_BRACKET
+    +++
+    :
+        [34]
+        ###
+        [0]
+        ###
+        [myIndex]
+        ###
+    ;
+
+listAssignableToAssignables
+    : totalListAssignable DOT{3}
+    | OPEN_PARENTHESIS totalListAssignable CLOSE_PARENTHESIS DOT{3}
+    +++
+    :
+        [
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ]...
+        ###
+        [34,56,76,87][1:3]...
+        ###
+        myList[min:45]...
+        ###
+        append myList, 45...
+        ###
+        ([
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ])...
+        ###
+        (append myList, 45)...
+        ###
+    ;
+
+totalListValue
+    : variableName
+    | totalListAssignable
+    +++
+    :
+        []
+        ###
+        [
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ]
+        ###
+        [34,56,76,87][1:3]
+        ###
+        myList[min:45]
+        ###
+        append myList, 45
+        ###
+        myVariable
+        ###
+    ;
+
+totalListAssignable
+    : listValue
+    | slice
+    | listAppend
+    +++
+    :
+        []
+        ###
+        [
+            [34, 45, 54, 34],
+            [21, 23, 45, 67]
+        ]
+        ###
+        [34,56,76,87][1:3]
+        ###
+        myList[min:45]
+        ###
+        append myList, 45
+        ###
+    ;
+
+listValue
+    : listAssignable
+    | variableName
+    +++
+    :
+        [34, -45.98, "something", (((first - second) + third + (fourth / fifth)) * (seventh - height)) - ninth]
+        ###
+        myVariable
+        ###
+    ;
+
+listAssignable
+    : OPEN_SQUARE_BRACKET assignables? CLOSE_SQUARE_BRACKET
+    +++
+    :
+        [34, -45.98, "something", (((first - second) + third + (fourth / fifth)) * (seventh - height)) - ninth]
+        ###
+        []
+        ###
+    ;
+
+intIncrement
+    : variableName intIncrementValue
+    +++
+    :
+        first++
+        ###
+        first--
+        ###
+    ;
+
+intIncrementValue
+    : PLUS PLUS
+    | MINUS MINUS
+    +++
+    :
+        ++
+        ###
+        --
+        ###
+    ;
+
+declarableValue
+    : computableValue
+    | primitiveValue
+    +++
+    :
+        -456.654
+        ###
+        "this is some value"
+        ###
+    ;
+
+computableValue
+    : floatValue
+    | intValue
+    +++
+    :
+        567
+        ###
+        -456.654
+        ###
+    ;
+
+primitiveValue
+    : boolValue
+    | stringValue
+    +++
+    :
+        true
+        ###
+        "this is some value"
+        ###
+    ;
+
+stringValue
+    : # QUOTATION EVERYTHING_EXCEPT_QUOTATION QUOTATION #
+    +++
+    :
+        "this is some string"
+        ###
+        " "
+        ###
+    ;
+
+boolValue
+    : TRUE
+    | FALSE
+    +++
+    :
+        true
+        ###
+        false
+        ###
+    ;
+
+intValue
+    : MINUS? INT_PATTERN
+    +++
+    :
+        -11
+        ###
+        2345
+        ###
+    ;
+
+floatValue
+    : MINUS? INT_PATTERN DOT INT_PATTERN
+    +++
+    :
+        -45.789
+        ###
+        345.321
+        ###
+    ;
+
+variableDeclarations
+    : variableDeclaration commaVariableDeclaration*
+    +++
+    :
+        string myString, int mySecond, uint myThird
+        ###
+        string myValue
+        ###
+    ;
+
+commaVariableDeclaration
+    : COMMA variableDeclaration
+    +++
+    :
+        , string myString
+        ###
+    ;
+
+variableDeclaration
+    : declarativeType variableName
+    +++
+    :
+        uint myUintValue
+        ###
+        list<string> myList
+        ###
+    ;
+
+declarativeType
+    : primitiveType
+    | computableType
+    | listType
+    +++
+    :
+        bool
+        ###
+        int
+        ###
+        list<int>
+        ###
+        list<list<int>>
+        ###
+    ;
+
+listType
+    : LIST LESS declarativeType MORE
+    +++
+    :
+        list<string>
+        ###
+        list<int>
+        ###
+        list<list<int>>
+        ###
+    ;
+
+primitiveType
+    : BOOL
+    | STRING
+    +++
+    :
+        bool
+        ###
+        string
+        ###
+    ;
+
+
+computableType
+    : FLOAT
+    | UINT
+    | INT
+    +++
+    :
+        uint
+        ###
+        int
+        ###
+        float
+        ###
+    ;
+
+variableName
+    : # FIRST_LETTER MIN_MAJ_LETTERS #
+    +++
+    :
+        myVariable
+        ###
+    ;

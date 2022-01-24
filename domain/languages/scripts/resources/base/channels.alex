@@ -1,0 +1,11 @@
+whiteSpaces
+	: WHITESPACES
+	;
+
+multiLineComment
+	: MULTI_LINE_COMMENT
+	;
+
+lineComment
+	: SINGLE_LINE_COMMENT
+	;
